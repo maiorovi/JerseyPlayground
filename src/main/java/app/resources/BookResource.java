@@ -3,17 +3,27 @@ package app.resources;
 
 import app.dao.BookDao;
 import app.domain.Book;
-import com.google.inject.Inject;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import java.util.Collection;
 
 @Path("books")
 public class BookResource {
+	//jersey is bundled with hk2 dependency injection framework
+	@Context
+	Request request;
+	//@Context provides
+	//1.application object
+	//2.uriInfo
+	//3.Request
+	//4.HttpHeaders
+	//5.SecurityContext
+	//6.Providers (ExceptionsMappers, MessageBodyReader/Writer, ContextResolver)
 
-//	@Inject
 	BookDao bookDao = new BookDao();
 
 
