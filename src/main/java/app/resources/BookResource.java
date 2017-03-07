@@ -3,6 +3,7 @@ package app.resources;
 
 import app.dao.BookDao;
 import app.domain.Book;
+import com.google.inject.Inject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -12,7 +13,7 @@ import java.util.Collection;
 @Path("books")
 public class BookResource {
 
-
+//	@Inject
 	BookDao bookDao = new BookDao();
 
 

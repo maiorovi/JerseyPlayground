@@ -1,9 +1,11 @@
 package app.dao;
 
 import app.domain.Book;
+import com.google.inject.Singleton;
 
 import java.util.*;
 
+//@Singleton
 public class BookDao {
 	Map<String, Book> books;
 
