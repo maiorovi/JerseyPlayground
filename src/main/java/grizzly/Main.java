@@ -1,5 +1,6 @@
 package grizzly;
 
+import app.config.BookApplication;
 import app.dao.BookDao;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
@@ -21,12 +22,7 @@ public class Main {
 
 		// create a resource config that scans for JAX-RS resources and providers
 		// in test-grizzly package
-		final ResourceConfig rc = new ResourceConfig().packages("grizzly", "app").register(new AbstractBinder() {
-			@Override
-			protected void configure() {
-				bind(bookDao).to(BookDao.class);
-			}
-		});
+		final ResourceConfig rc = new BookApplication(bookDao);
 
 		// create and start a new instance of grizzly http server
 		// exposing the Jersey application at BASE_URI

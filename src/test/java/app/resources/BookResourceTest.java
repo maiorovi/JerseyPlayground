@@ -1,5 +1,6 @@
 package app.resources;
 
+import app.config.BookApplication;
 import app.dao.BookDao;
 import app.domain.Book;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
@@ -26,12 +27,7 @@ public class BookResourceTest extends JerseyTest {
 
 		final BookDao bookDao = new BookDao();
 
-		return new ResourceConfig(BookResource.class).register(new AbstractBinder() {
-			@Override
-			protected void configure() {
-				bind(bookDao).to(BookDao.class);
-			}
-		});
+		return new BookApplication(bookDao);
 	}
 
 	@Test
