@@ -1,6 +1,8 @@
 package app.resources;
 
+import app.dao.BookDao;
 import app.domain.Book;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
@@ -22,7 +24,14 @@ public class BookResourceTest extends JerseyTest {
 		enable(TestProperties.DUMP_ENTITY);
 //		enable(TestProperties.RECORD_LOG_LEVEL);
 
-		return new ResourceConfig(BookResource.class);
+		final BookDao bookDao = new BookDao();
+
+		return new ResourceConfig(BookResource.class).register(new AbstractBinder() {
+			@Override
+			protected void configure() {
+				bind(bookDao).to(BookDao.class);
+			}
+		});
 	}
 
 	@Test
@@ -43,8 +52,6 @@ public class BookResourceTest extends JerseyTest {
 		Book response1 = target("books").path("1").request().get(Book.class);
 		Book response2 = target("books").path("1").request().get(Book.class);
 
-		assertThat(response1)
-				.extracting(Book::getPublished)
-				.isEqualTo(response2.getPublished());
+		assertThat(response1.getPublished()).isEqualTo(response2.getPublished());
 	}
 }

@@ -15,7 +15,7 @@ import java.util.Collection;
 public class BookResource {
 	//jersey is bundled with hk2 dependency injection framework
 	@Context
-	Request request;
+	private Request request;
 	//@Context provides
 	//1.application object
 	//2.uriInfo
@@ -24,7 +24,8 @@ public class BookResource {
 	//5.SecurityContext
 	//6.Providers (ExceptionsMappers, MessageBodyReader/Writer, ContextResolver)
 
-	BookDao bookDao = new BookDao();
+	@Context
+	private BookDao bookDao;
 
 
 	@GET
