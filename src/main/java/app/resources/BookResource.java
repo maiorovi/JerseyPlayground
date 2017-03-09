@@ -9,6 +9,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collection;
 
 @Path("books")
@@ -39,6 +41,13 @@ public class BookResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Book getBook(@PathParam("id")String id) {
 		return bookDao.getBook(id).orElseThrow(() -> new WebApplicationException("Incorect id", Response.Status.NOT_FOUND));
+	}
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response addBook(Book book) throws URISyntaxException {
+		bookDao.addBook(book);
+		return Response.created(new URI("books/"+book.getId())).build();
 	}
 
 }

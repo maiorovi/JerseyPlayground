@@ -37,4 +37,11 @@ public class BookDao {
 	public Collection<Book> getBooks() {
 		return books.values();
 	}
+
+	public Book addBook(Book book) {
+		book.setId(UUID.randomUUID().toString());
+		books.put(book.getId(), book);
+
+		return book;
+	}
 }
