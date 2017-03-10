@@ -9,8 +9,10 @@ import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
 import org.junit.Test;
 
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import java.util.List;
@@ -49,5 +51,22 @@ public class BookResourceTest extends JerseyTest {
 		Book response2 = target("books").path("1").request().get(Book.class);
 
 		assertThat(response1.getPublished()).isEqualTo(response2.getPublished());
+	}
+
+	@Test
+	public void addsBook() throws Exception {
+		Book book = new Book();
+		book.setTitle("title");
+		book.setAuthor("author");
+
+		Entity<Book> bookEntity = Entity.entity(book, MediaType.APPLICATION_JSON_TYPE);
+		Response response = target("books").request().post(bookEntity);
+		Response withEntity = target(response.getHeaderString("Location").replace("http://localhost:9998/", "")).request().get();
+		Book actualBook = withEntity.readEntity(Book.class);
+
+		assertThat(response.getStatus()).isEqualTo(Response.Status.CREATED.getStatusCode());
+		assertThat(actualBook.getId()).isNotNull();
+		assertThat(actualBook.getTitle()).isEqualTo("title");
+		assertThat(actualBook.getAuthor()).isEqualTo("author");
 	}
 }
